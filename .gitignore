@@ -4,6 +4,8 @@ node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+src/assets/4.jpg
+src/components/HelloWorld1.vue
 
 # Editor directories and files
 .idea
