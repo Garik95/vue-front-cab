@@ -106,7 +106,7 @@ export default {
         if (response.data.status === 'ok') {
           this.msg = `Authenticating...`
           this.$session.start()
-          // this.$session.set('jwt', response.body.token)
+          this.$session.set('jwt', response.body.token)
           // Vue.http.headers.common['Authorization'] = 'Bearer ' + response.body.token
           this.userSaved = true
           this.sending = false
