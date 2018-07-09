@@ -8,6 +8,9 @@
 
       <div class="md-toolbar-section-end">
         <md-button @click="showSidepanel = true">Favorites</md-button>
+        <md-button @click="logout" class="md-icon-button md-dense md-accent">
+          <md-icon>exit_to_app</md-icon>
+        </md-button>
       </div>
     </md-toolbar>
 
@@ -83,7 +86,18 @@ export default {
   data: () => ({
     showNavigation: false,
     showSidepanel: false
-  })
+  }),
+  beforeCreate: function () {
+    if (!this.$session.exists()) {
+      this.$router.push('/')
+    }
+  },
+  methods: {
+    logout: function () {
+      this.$session.destroy()
+      this.$router.push('/')
+    }
+  }
 }
 </script>
 

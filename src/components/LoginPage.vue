@@ -44,6 +44,7 @@
 
 <script>
 import { validationMixin } from 'vuelidate'
+// import Vue from 'vue'
 import {
   required,
   minLength
@@ -75,6 +76,11 @@ export default {
       }
     }
   },
+  beforeCreate: function () {
+    if (this.$session.exists()) {
+      this.$router.push('/page')
+    }
+  },
   methods: {
     getValidationClass (fieldName) {
       const field = this.$v.form[fieldName]
@@ -98,12 +104,15 @@ export default {
         password: this.form.password
       }).then(response => {
         if (response.data.status === 'ok') {
-          this.msg = `Authenticating...` // `${this.form.firstName}`
+          this.msg = `Authenticating...`
+          this.$session.start()
+          // this.$session.set('jwt', response.body.token)
+          // Vue.http.headers.common['Authorization'] = 'Bearer ' + response.body.token
           this.userSaved = true
           this.sending = false
           this.$router.push('/page')
         } else {
-          this.msg = `The user was not found` // `${this.form.firstName}`
+          this.msg = `The user was not found`
           this.userSaved = true
           this.sending = false
           this.clearForm()
@@ -114,20 +123,6 @@ export default {
         this.userSaved = true
         this.errors.push(e)
       })
-      // axios({
-      //   method: 'post',
-      //   url: 'http://localhost:8888/posts',
-      //   data: {
-      //     firstName: 'Fred',
-      //     lastName: 'Flintstone'
-      //   }
-      // })
-      // window.setTimeout(() => {
-      //   this.lastUser = `${this.form.firstName}`
-      //   this.userSaved = true
-      //   this.sending = false
-      //   this.clearForm()
-      // }, 1500)
     },
     validateUser () {
       this.$v.$touch()
