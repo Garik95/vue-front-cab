@@ -1,20 +1,17 @@
 <template>
   <div class="page-container md-layout-column">
-    <md-toolbar class="md-primary">
-      <md-button class="md-icon-button" @click="showNavigation = true">
-        <md-icon>menu</md-icon>
+  <md-toolbar class="md-primary">
+    <md-button class="md-icon-button" @click="showNavigation = true">
+      <md-icon>menu</md-icon>
+    </md-button>
+    <span class="md-title">My Title</span>
+    <div class="md-toolbar-section-end">
+      <md-button @click="showSidepanel = true" class="md-icon-button md-dense md-accent">
+        <md-icon class="md-size-2x">account_circle</md-icon>
       </md-button>
-      <span class="md-title">My Title</span>
-
-      <div class="md-toolbar-section-end">
-        <md-button @click="showSidepanel = true">Favorites</md-button>
-        <md-button @click="logout" class="md-icon-button md-dense md-accent">
-          <md-icon>exit_to_app</md-icon>
-        </md-button>
-      </div>
-    </md-toolbar>
-
-    <md-drawer :md-active.sync="showNavigation">
+    </div>
+  </md-toolbar>
+      <md-drawer :md-active.sync="showNavigation">
       <md-toolbar class="md-transparent" md-elevation="0">
         <span class="md-title">My App name</span>
       </md-toolbar>
@@ -41,39 +38,29 @@
         </md-list-item>
       </md-list>
     </md-drawer>
+        <md-drawer class="md-right" :md-active.sync="showSidepanel">
+      <md-card>
+      <md-card-media>
+        <md-icon class="md-size-2x">account_circle</md-icon>
+      </md-card-media>
 
-    <md-drawer class="md-right" :md-active.sync="showSidepanel">
-      <md-toolbar class="md-transparent" md-elevation="0">
-        <span class="md-title">Favorites</span>
-      </md-toolbar>
-
+      <md-card-header>
+        <div class="md-title">User name</div>
+        <div class="md-subhead">@User_id</div>
+      </md-card-header>
+      <md-card-area>
       <md-list>
-        <md-list-item>
-          <span class="md-list-item-text">Abbey Christansen</span>
-
-          <md-button class="md-icon-button md-list-action">
-            <md-icon class="md-primary">chat_bubble</md-icon>
-          </md-button>
-        </md-list-item>
-
-        <md-list-item>
-          <span class="md-list-item-text">Alex Nelson</span>
-
-          <md-button class="md-icon-button md-list-action">
-            <md-icon class="md-primary">chat_bubble</md-icon>
-          </md-button>
-        </md-list-item>
-
-        <md-list-item>
-          <span class="md-list-item-text">Mary Johnson</span>
-
-          <md-button class="md-icon-button md-list-action">
-            <md-icon>chat_bubble</md-icon>
-          </md-button>
+        <md-list-item to="/page">Change phone number</md-list-item>
+        <md-list-item to="/page">Change password</md-list-item>
+        <md-list-item @click="logout">
+          Exit
+          <md-icon class="color:red">exit_to_app</md-icon>
         </md-list-item>
       </md-list>
+      </md-card-area>
+    </md-card>
     </md-drawer>
-  <first></first>
+      <first></first>
   </div>
 </template>
 
@@ -118,5 +105,12 @@ export default {
 
   .md-content {
     padding: 16px;
+  }
+  .md-list {
+    width: 320px;
+    max-width: 100%;
+    display: inline-block;
+    vertical-align: top;
+    border: 1px solid rgba(#000, .12);
   }
 </style>

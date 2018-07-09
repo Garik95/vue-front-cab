@@ -99,14 +99,14 @@ export default {
       this.sending = true
       // Instead of this timeout, here you can call your API
 
-      axios.post(`http://localhost:8888/posts`, {
+      axios.post(`http://192.168.1.101/posts`, {
         login: this.form.firstName,
         password: this.form.password
       }).then(response => {
         if (response.data.status === 'ok') {
           this.msg = `Authenticating...`
           this.$session.start()
-          this.$session.set('jwt', response.body.token)
+          // this.$session.set('jwt', response.body.token)
           // Vue.http.headers.common['Authorization'] = 'Bearer ' + response.body.token
           this.userSaved = true
           this.sending = false
