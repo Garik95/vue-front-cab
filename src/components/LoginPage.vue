@@ -1,7 +1,8 @@
 <template>
   <div>
+    <img src="../assets/logo.png">
     <form novalidate class="md-layout md-alignment-space-between-center " @submit.prevent="validateUser">
-      <md-card class="md-layout-item md-size-50 md-small-size-100">
+      <md-card class="md-layout-item md-size-25 md-small-size-100">
         <md-card-header>
           <div class="md-title">Enter</div>
         </md-card-header>
@@ -32,7 +33,7 @@
         <md-progress-bar md-mode="indeterminate" v-if="sending" />
 
         <md-card-actions>
-          <md-button type="submit" class="md-primary" :disabled="sending">Login</md-button>
+          <md-button type="submit" class="md-raised md-primary" :disabled="sending">Login</md-button>
         </md-card-actions>
       </md-card>
 
@@ -100,6 +101,7 @@ export default {
           this.msg = `Authenticating...` // `${this.form.firstName}`
           this.userSaved = true
           this.sending = false
+          this.$router.push('/page')
         } else {
           this.msg = `The user was not found` // `${this.form.firstName}`
           this.userSaved = true
@@ -107,6 +109,9 @@ export default {
           this.clearForm()
         }
       }).catch(e => {
+        this.msg = `Connection error!`
+        this.sending = false
+        this.userSaved = true
         this.errors.push(e)
       })
       // axios({
