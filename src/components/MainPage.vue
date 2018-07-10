@@ -50,8 +50,8 @@
       </md-card-header>
       <md-card-area>
       <md-list>
-        <md-list-item to="/page">Change phone number</md-list-item>
-        <md-list-item to="/page">Change password</md-list-item>
+        <md-list-item to="/phone">Change phone number</md-list-item>
+        <md-list-item to="/password">Change password</md-list-item>
         <md-list-item @click="logout">
           Exit
           <md-icon class="color:red">exit_to_app</md-icon>
@@ -60,21 +60,32 @@
       </md-card-area>
     </md-card>
     </md-drawer>
-      <first></first>
+      <first v-if="page == '/page'"></first>
+      <phone v-if="page == '/phone'"></phone>
+      <password v-if="page == '/password'"></password>
   </div>
 </template>
 
 <script>
-import First from './First.vue'
+import First from './views/First.vue'
+import Phone from './views/Phone.vue'
+import Password from './views/Password.vue'
+
 export default {
   name: 'Temporary',
   data: () => ({
     showNavigation: false,
-    showSidepanel: false
+    showSidepanel: false,
+    page: '/page'
   }),
   beforeCreate: function () {
     if (!this.$session.exists()) {
       this.$router.push('/')
+    }
+  },
+  watch: {
+    $route (to, from) {
+      this.page = to.path
     }
   },
   methods: {
@@ -84,7 +95,9 @@ export default {
     }
   },
   components: {
-    First
+    First,
+    Phone,
+    Password
   }
 }
 </script>

@@ -16,6 +16,16 @@ export default new Router({
       path: '/page',
       name: 'MainPage',
       component: MainPage
+    },
+    {
+      path: '/phone',
+      name: 'MainPage',
+      component: MainPage
+    },
+    {
+      path: '/password',
+      name: 'MainPage',
+      component: MainPage
     }
   ]
 })
