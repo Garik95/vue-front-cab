@@ -99,7 +99,7 @@ export default {
       this.sending = true
       // Instead of this timeout, here you can call your API
 
-      axios.post(`http://192.168.137.1/posts`, {
+      axios.post(`http://localhost/posts`, {
         login: this.form.firstName,
         password: this.form.password
       }).then(response => {

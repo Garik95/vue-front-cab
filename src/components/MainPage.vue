@@ -1,5 +1,5 @@
 <template>
-  <div class="page-container md-layout-column">
+  <div class="page-container md-layout-column" style="height:100vh !important">
   <md-toolbar class="md-primary">
     <md-button class="md-icon-button" @click="showNavigation = true">
       <md-icon>menu</md-icon>
@@ -17,24 +17,29 @@
       </md-toolbar>
 
       <md-list>
-        <md-list-item>
-          <md-icon>move_to_inbox</md-icon>
-          <span class="md-list-item-text">Inbox</span>
+        <md-list-item to="/page">
+          <md-icon>dashboard</md-icon>
+          <span class="md-list-item-text">Dashboard</span>
         </md-list-item>
 
         <md-list-item>
-          <md-icon>send</md-icon>
-          <span class="md-list-item-text">Sent Mail</span>
+          <md-icon>payment</md-icon>
+          <span class="md-list-item-text">Payments</span>
         </md-list-item>
 
         <md-list-item>
-          <md-icon>delete</md-icon>
-          <span class="md-list-item-text">Trash</span>
+          <md-icon>history</md-icon>
+          <span class="md-list-item-text">Payments History</span>
         </md-list-item>
 
         <md-list-item>
-          <md-icon>error</md-icon>
-          <span class="md-list-item-text">Spam</span>
+          <md-icon>money</md-icon>
+          <span class="md-list-item-text">Deposits</span>
+        </md-list-item>
+
+        <md-list-item>
+          <md-icon>attach_money</md-icon>
+          <span class="md-list-item-text">Currency</span>
         </md-list-item>
       </md-list>
     </md-drawer>
