@@ -1,16 +1,16 @@
 <template>
   <div class="page-container md-layout-column" style="height:100vh !important">
-  <md-toolbar class="md-primary">
-    <md-button class="md-icon-button" @click="showNavigation = true">
-      <md-icon>menu</md-icon>
-    </md-button>
-    <span class="md-title">My Title</span>
-    <div class="md-toolbar-section-end">
-      <md-button @click="showSidepanel = true" class="md-icon-button md-dense md-accent">
-        <md-icon class="md-size-2x">account_circle</md-icon>
+    <md-toolbar class="md-primary">
+      <md-button class="md-icon-button" @click="showNavigation = true">
+        <md-icon>menu</md-icon>
       </md-button>
-    </div>
-  </md-toolbar>
+      <span class="md-title">My Title</span>
+      <div class="md-toolbar-section-end">
+        <md-button @click="showSidepanel = true" class="md-icon-button md-dense md-accent">
+          <md-icon class="md-size-2x">account_circle</md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
       <md-drawer :md-active.sync="showNavigation">
       <md-toolbar class="md-transparent" md-elevation="0">
         <span class="md-title">My App name</span>
@@ -91,8 +91,8 @@ export default {
   watch: {
     $route (to, from) {
       this.page = to.path
-      this.showNavigation = true
-      this.showSidepanel = true
+      this.showNavigation = false
+      this.showSidepanel = false
     }
   },
   methods: {

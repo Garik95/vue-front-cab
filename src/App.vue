@@ -1,12 +1,13 @@
 <template>
-  <div id="app" style="min-height: 100vh;">
+  <div id="app" style="min-height: 100vh;"><cube-spin v-if="loading"></cube-spin>
     <router-view/>
   </div>
 </template>
 
 <script>
+
 export default {
-  name: 'App'
+  name: 'App',
 }
 </script>
 

@@ -19,16 +19,16 @@
     <md-content>
       Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error quibusdam, non molestias et! Earum magnam, similique, quo recusandae placeat dicta asperiores modi sint ea repudiandae maxime? Quae non explicabo, neque.
     </md-content>
-    <md-card class="md-alignment-space-around">
+    <md-card class="md-alignment-center-space-around" v-for="card in cards" :key="card">
       <md-card-media-cover md-text-scrim>
         <md-card-media md-ratio="16:9">
-          <img src="../../assets/card_cover_1.jpg" alt="card_cover">
+          <img v-bind:src="'../../../static/card_covers/' + card.cover" alt="card_cover" />
         </md-card-media>
 
         <md-card-area>
           <md-card-actions>
             <md-menu md-size="auto" md-direction="bottom-end">
-              <md-button class="md-icon-button">
+              <md-button class="md-icon-button" v-on:click="refresh(card.id)">
                 <md-icon>refresh</md-icon>
               </md-button>
               <md-button class="md-icon-button" md-menu-trigger>
@@ -36,11 +36,11 @@
               </md-button>
 
               <md-menu-content>
-                <md-menu-item @click="t_active = true">
+                <md-menu-item @click="t_active = true" v-if="card.state">
                   <md-icon class="md-primary">attach_money</md-icon>
                   <span>Transfer</span>
                 </md-menu-item>
-                <md-menu-item @click="b_active = true" v-if="disabled">
+                <md-menu-item @click="b_active = true,card_id = card.id" v-if="card.state">
                   <md-icon style="color:#ff0000">block</md-icon>
                   <span>Block</span>
                 </md-menu-item>
@@ -48,11 +48,11 @@
             </md-menu>
           </md-card-actions>
           <md-card-header>
-            <span class="md-title">1 000 000,00<md-icon style="color:red" v-if="!disabled">lock</md-icon></span>
-            <span class="md-subhead">8600 1404 9366 8835</span>
+            <span class="md-title">{{ card.sum }}<md-icon style="color:red" v-if="!card.state">lock</md-icon></span>
+            <span class="md-subhead">{{ card.account }}</span>
           </md-card-header>
           <md-card-content>
-            Lorem ipsum dolor sit amet
+            {{ card.name }}
           </md-card-content>
         </md-card-area>
       </md-card-media-cover>
@@ -67,15 +67,51 @@ export default {
     t_active: false,
     b_active: false,
     value: null,
-    disabled: true,
-    showDialog: false
+    card_id: null,
+    cards: {
+      1: {
+        'id': 1,
+        'account': '1234 5678 9000 0000',
+        'name': 'Test user name',
+        'sum': '1 000 000,00',
+        'state': true,
+        'cover': '2.jpg'
+      },
+      2: {
+        'id': 2,
+        'account': '1234 5678 9000 0000',
+        'name': 'Test user name3',
+        'sum': '7 777 777,00',
+        'state': true,
+        'cover': '1.jpg'
+      },
+      3: {
+        'id': 3,
+        'account': '1234 5678 9000 0000',
+        'name': 'Test user name',
+        'sum': '1 000 000,00',
+        'state': true,
+        'cover': '1.jpg'
+      },
+      4: {
+        'id': 4,
+        'account': '1234 5678 9000 0000',
+        'name': 'Test user name3',
+        'sum': '7 777 777,00',
+        'state': true,
+        'cover': '2.jpg'
+      }
+    }
   }),
   methods: {
+    refresh: function (id) {
+      this.cards[id].state = true
+    },
     onCancel () {
       this.value = ''
     },
     onBlockConfirm () {
-      this.disabled = false
+      this.cards[this.card_id].state = false
     }
   }
 }
@@ -84,7 +120,7 @@ export default {
 <style lang="scss" scoped>
   .md-card {
     width: 320px;
-    margin: 4px;
+    margin: 20px;
     display: inline-block;
     vertical-align: top;
   .md-dialog {
