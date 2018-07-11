@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-bar>
     <md-dialog-prompt
       @md-cancel="onCancel"
       :md-active.sync="t_active"
@@ -19,15 +19,33 @@
     <md-content>
       Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error quibusdam, non molestias et! Earum magnam, similique, quo recusandae placeat dicta asperiores modi sint ea repudiandae maxime? Quae non explicabo, neque.
     </md-content>
-    <md-card class="md-alignment-center-space-around" v-for="card in cards" :key="card">
+    <md-dialog :md-active.sync="showCoversDialogState">
+      <md-dialog-title>Preferences</md-dialog-title>
+      <div v-for="cover in covers" :key="cover" class="md-layout small md-alignment-center-space-around">
+        <md-card md-with-hover>
+          <md-ripple>
+            <md-card-content>
+              <img v-bind:src="'../../../static/card_covers/' + cover.name" class="small"/>
+            </md-card-content>
+            <md-card-actions>
+              <md-button @click="changeCover(cover.id)">Select</md-button>
+            </md-card-actions>
+          </md-ripple>
+        </md-card>
+      </div>
+    </md-dialog>
+    <md-card class="md-layout" v-for="card in cards" :key="card">
       <md-card-media-cover md-text-scrim>
         <md-card-media md-ratio="16:9">
-          <img v-bind:src="'../../../static/card_covers/' + card.cover" alt="card_cover" />
+          <img v-bind:src="'../../../static/card_covers/' + card.cover + '.jpg'" alt="card_cover" />
         </md-card-media>
 
         <md-card-area>
           <md-card-actions>
             <md-menu md-size="auto" md-direction="bottom-end">
+              <md-button class="md-icon-button" @click="showCoversDialog(card.id)">
+                <md-icon class="md-layout-item">palette</md-icon>
+              </md-button>
               <md-button class="md-icon-button" v-on:click="refresh(card.id)">
                 <md-icon>refresh</md-icon>
               </md-button>
@@ -68,6 +86,19 @@ export default {
     b_active: false,
     value: null,
     card_id: null,
+    cover_id: null,
+    showCoversDialogState: false,
+    selectedCardId: null,
+    covers: {
+      1: {
+        'id': 1,
+        'name': '1.jpg'
+      },
+      2: {
+        'id': 2,
+        'name': '2.jpg'
+      }
+    },
     cards: {
       1: {
         'id': 1,
@@ -75,7 +106,7 @@ export default {
         'name': 'Test user name',
         'sum': '1 000 000,00',
         'state': true,
-        'cover': '2.jpg'
+        'cover': '2'
       },
       2: {
         'id': 2,
@@ -83,7 +114,7 @@ export default {
         'name': 'Test user name3',
         'sum': '7 777 777,00',
         'state': true,
-        'cover': '1.jpg'
+        'cover': '1'
       },
       3: {
         'id': 3,
@@ -91,7 +122,7 @@ export default {
         'name': 'Test user name',
         'sum': '1 000 000,00',
         'state': true,
-        'cover': '1.jpg'
+        'cover': '1'
       },
       4: {
         'id': 4,
@@ -99,13 +130,22 @@ export default {
         'name': 'Test user name3',
         'sum': '7 777 777,00',
         'state': true,
-        'cover': '2.jpg'
+        'cover': '2'
       }
     }
   }),
   methods: {
     refresh: function (id) {
       this.cards[id].state = true
+      // this.cards[1].cover = '2'
+    },
+    showCoversDialog: function (CardId) {
+      this.showCoversDialogState = true
+      this.selectedCardId = CardId
+    },
+    changeCover: function (CoverId) {
+      this.showCoversDialogState = false
+      this.cards[this.selectedCardId].cover = CoverId
     },
     onCancel () {
       this.value = ''
@@ -126,5 +166,8 @@ export default {
   .md-dialog {
     max-width: 768px;
   }
+  }
+  .md-content {
+    overflow: auto;
   }
 </style>

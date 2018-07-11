@@ -1,5 +1,5 @@
 <template>
-  <div class="page-container md-layout-column" style="height:100vh !important">
+  <div class="page-container md-layout-column" style="height:100vh !important min-height:100%">
     <md-toolbar class="md-primary">
       <md-button class="md-icon-button" @click="showNavigation = true">
         <md-icon>menu</md-icon>
@@ -89,7 +89,7 @@ export default {
     }
   },
   watch: {
-    $route (to, from) {
+    $route (to, from, next) {
       this.page = to.path
       this.showNavigation = false
       this.showSidepanel = false
