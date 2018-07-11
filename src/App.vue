@@ -1,5 +1,5 @@
 <template>
-  <div id="app" style="min-height: 100vh;"><cube-spin v-if="loading"></cube-spin>
+  <div id="app" style="min-height: 100vh;">
     <router-view/>
   </div>
 </template>
