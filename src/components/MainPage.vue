@@ -91,6 +91,8 @@ export default {
   watch: {
     $route (to, from) {
       this.page = to.path
+      this.showNavigation = true
+      this.showSidepanel = true
     }
   },
   methods: {

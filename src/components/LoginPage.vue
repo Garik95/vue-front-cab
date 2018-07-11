@@ -99,7 +99,7 @@ export default {
       this.sending = true
       // Instead of this timeout, here you can call your API
 
-      axios.post(`http://localhost/posts`, {
+      axios.post(`http://vue-api-1.eu-4.evennode.com/posts`, {
         login: this.form.firstName,
         password: this.form.password
       }).then(response => {
