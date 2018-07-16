@@ -118,7 +118,7 @@ export default {
       this.inProgress = true
       this.refreshCard(id)
     },
-    // Shows covers popup 
+    // Shows covers popup
     showCoversDialog: function (CardId) {
       axios.post(`http://vue-api-2.eu-4.evennode.com/graphql`, {
         query: `{covers { id name } }`
@@ -128,7 +128,7 @@ export default {
       })
       this.selectedCardId = CardId
     },
-    //Changes cover to selected one
+    // Changes cover to selected one
     changeCover: function (CoverId) {
       this.showCoversDialogState = false
       this.cards[this.selectedCardId].cover = CoverId
