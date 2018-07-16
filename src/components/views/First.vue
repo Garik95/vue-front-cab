@@ -79,6 +79,8 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   name: 'First',
   data: () => ({
@@ -89,16 +91,17 @@ export default {
     cover_id: null,
     showCoversDialogState: false,
     selectedCardId: null,
-    covers: {
-      1: {
-        'id': 1,
-        'name': '1.jpg'
-      },
-      2: {
-        'id': 2,
-        'name': '2.jpg'
-      }
-    },
+    covers: null,
+    // covers: {
+    //   1: {
+    //     'id': 1,
+    //     'name': '1.jpg'
+    //   },
+    //   2: {
+    //     'id': 2,
+    //     'name': '2.jpg'
+    //   }
+    // },
     cards: {
       1: {
         'id': 1,
@@ -134,13 +137,20 @@ export default {
       }
     }
   }),
+  created () {
+
+  },
   methods: {
     refresh: function (id) {
       this.cards[id].state = true
-      // this.cards[1].cover = '2'
     },
     showCoversDialog: function (CardId) {
-      this.showCoversDialogState = true
+      axios.post(`http://vue-api-2.eu-4.evennode.com/graphql`, {
+        query: `{covers { id name } }`
+      }).then(response => {
+        this.covers = response.data.data.covers
+        this.showCoversDialogState = true
+      })
       this.selectedCardId = CardId
     },
     changeCover: function (CoverId) {
