@@ -34,19 +34,20 @@
         </md-card>
       </div>
     </md-dialog>
-    <md-card class="md-layout" v-for="card in cards" :key="card">
+    <md-card class="md-layout" v-for="(card, index) in cards" :key="card">
       <md-card-media-cover md-text-scrim>
         <md-card-media md-ratio="16:9">
           <img v-bind:src="'../../../static/card_covers/' + card.cover + '.jpg'" alt="card_cover" />
         </md-card-media>
+          <md-progress-bar md-mode="indeterminate" v-if="!inProgress"></md-progress-bar>
 
         <md-card-area>
           <md-card-actions>
             <md-menu md-size="auto" md-direction="bottom-end">
-              <md-button class="md-icon-button" @click="showCoversDialog(card.id)">
+              <md-button class="md-icon-button" @click="showCoversDialog(index)">
                 <md-icon class="md-layout-item">palette</md-icon>
               </md-button>
-              <md-button class="md-icon-button" v-on:click="refresh(card.id)">
+              <md-button class="md-icon-button" v-on:click="refresh(index)">
                 <md-icon>refresh</md-icon>
               </md-button>
               <md-button class="md-icon-button" md-menu-trigger>
@@ -58,7 +59,7 @@
                   <md-icon class="md-primary">attach_money</md-icon>
                   <span>Transfer</span>
                 </md-menu-item>
-                <md-menu-item @click="b_active = true,card_id = card.id" v-if="card.state">
+                <md-menu-item @click="b_active = true,card_id = index" v-if="card.state">
                   <md-icon style="color:#ff0000">block</md-icon>
                   <span>Block</span>
                 </md-menu-item>
@@ -92,64 +93,32 @@ export default {
     showCoversDialogState: false,
     selectedCardId: null,
     covers: null,
-    cards: null
-    // covers: {
-    //   1: {
-    //     'id': 1,
-    //     'name': '1.jpg'
-    //   },
-    //   2: {
-    //     'id': 2,
-    //     'name': '2.jpg'
-    //   }
-    // },
-    // cards: {
-    //   1: {
-    //     'id': 1,
-    //     'account': '1234 5678 9000 0000',
-    //     'name': 'Test user name',
-    //     'sum': '1 000 000,00',
-    //     'state': true,
-    //     'cover': '2'
-    //   },
-    //   2: {
-    //     'id': 2,
-    //     'account': '1234 5678 9000 0000',
-    //     'name': 'Test user name3',
-    //     'sum': '7 777 777,00',
-    //     'state': true,
-    //     'cover': '1'
-    //   },
-    //   3: {
-    //     'id': 3,
-    //     'account': '1234 5678 9000 0000',
-    //     'name': 'Test user name',
-    //     'sum': '1 000 000,00',
-    //     'state': true,
-    //     'cover': '1'
-    //   },
-    //   4: {
-    //     'id': 4,
-    //     'account': '1234 5678 9000 0000',
-    //     'name': 'Test user name3',
-    //     'sum': '7 777 777,00',
-    //     'state': true,
-    //     'cover': '2'
-    //   }
-    // }
+    cards: null,
+    inProgress: false
   }),
   created () {
     axios.post(`http://vue-api-2.eu-4.evennode.com/graphql`, {
       query: `{cards(userid:"5b40f9449b082f3a50b32514"){ _id userid account sum state cover } }`
     }).then(response => {
-      alert(JSON.stringify(response.data.data.cards))
       this.cards = response.data.data.cards
     })
   },
   methods: {
-    refresh: function (id) {
-      this.cards[id].state = true
+    // Refreshes select card sum and state
+    refreshCard: function (id) {
+      axios.post(`http://vue-api-2.eu-4.evennode.com/graphql`, {
+        query: `{card(account:"` + this.cards[id].account + `"){ _id userid account sum state cover } }`
+      }).then(response => {
+        this.cards[id].sum = response.data.data.card[0].sum
+        this.cards[id].state = response.data.data.card[0].state
+      })
+      this.inProgress = false
     },
+    refresh: function (id) {
+      this.inProgress = true
+      this.refreshCard(id)
+    },
+    // Shows covers popup 
     showCoversDialog: function (CardId) {
       axios.post(`http://vue-api-2.eu-4.evennode.com/graphql`, {
         query: `{covers { id name } }`
@@ -159,13 +128,16 @@ export default {
       })
       this.selectedCardId = CardId
     },
+    //Changes cover to selected one
     changeCover: function (CoverId) {
       this.showCoversDialogState = false
       this.cards[this.selectedCardId].cover = CoverId
     },
+    // Triggers on popup cancel
     onCancel () {
       this.value = ''
     },
+    // Triggers on popup confirm
     onBlockConfirm () {
       this.cards[this.card_id].state = false
     }
