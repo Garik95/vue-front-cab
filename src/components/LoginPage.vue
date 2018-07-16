@@ -99,11 +99,11 @@ export default {
       this.sending = true
       // Instead of this timeout, here you can call your API
 
-      axios.post(`http://vue-api-1.eu-4.evennode.com/posts`, {
-        login: this.form.firstName,
-        password: this.form.password
-      }).then(response => {
-        if (response.data.status === 'ok') {
+      axios.post(`http://vue-api-2.eu-4.evennode.com/graphql`,
+        {
+          query: `{user(username:"` + this.form.firstName + `"){username password}}`
+        }).then(response => {
+        if (response.data.data.user[0].username === this.form.firstName) {
           this.msg = `Authenticating...`
           this.$session.start()
           // this.$session.set('jwt', response.body.token)
