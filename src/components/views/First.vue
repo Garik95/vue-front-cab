@@ -92,6 +92,7 @@ export default {
     showCoversDialogState: false,
     selectedCardId: null,
     covers: null,
+    cards: null
     // covers: {
     //   1: {
     //     'id': 1,
@@ -102,43 +103,48 @@ export default {
     //     'name': '2.jpg'
     //   }
     // },
-    cards: {
-      1: {
-        'id': 1,
-        'account': '1234 5678 9000 0000',
-        'name': 'Test user name',
-        'sum': '1 000 000,00',
-        'state': true,
-        'cover': '2'
-      },
-      2: {
-        'id': 2,
-        'account': '1234 5678 9000 0000',
-        'name': 'Test user name3',
-        'sum': '7 777 777,00',
-        'state': true,
-        'cover': '1'
-      },
-      3: {
-        'id': 3,
-        'account': '1234 5678 9000 0000',
-        'name': 'Test user name',
-        'sum': '1 000 000,00',
-        'state': true,
-        'cover': '1'
-      },
-      4: {
-        'id': 4,
-        'account': '1234 5678 9000 0000',
-        'name': 'Test user name3',
-        'sum': '7 777 777,00',
-        'state': true,
-        'cover': '2'
-      }
-    }
+    // cards: {
+    //   1: {
+    //     'id': 1,
+    //     'account': '1234 5678 9000 0000',
+    //     'name': 'Test user name',
+    //     'sum': '1 000 000,00',
+    //     'state': true,
+    //     'cover': '2'
+    //   },
+    //   2: {
+    //     'id': 2,
+    //     'account': '1234 5678 9000 0000',
+    //     'name': 'Test user name3',
+    //     'sum': '7 777 777,00',
+    //     'state': true,
+    //     'cover': '1'
+    //   },
+    //   3: {
+    //     'id': 3,
+    //     'account': '1234 5678 9000 0000',
+    //     'name': 'Test user name',
+    //     'sum': '1 000 000,00',
+    //     'state': true,
+    //     'cover': '1'
+    //   },
+    //   4: {
+    //     'id': 4,
+    //     'account': '1234 5678 9000 0000',
+    //     'name': 'Test user name3',
+    //     'sum': '7 777 777,00',
+    //     'state': true,
+    //     'cover': '2'
+    //   }
+    // }
   }),
   created () {
-
+    axios.post(`http://vue-api-2.eu-4.evennode.com/graphql`, {
+      query: `{cards(userid:"5b40f9449b082f3a50b32514"){ _id userid account sum state cover } }`
+    }).then(response => {
+      alert(JSON.stringify(response.data.data.cards))
+      this.cards = response.data.data.cards
+    })
   },
   methods: {
     refresh: function (id) {
