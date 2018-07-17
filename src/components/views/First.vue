@@ -71,7 +71,7 @@
             <span class="md-subhead">{{ card.account }}</span>
           </md-card-header>
           <md-card-content>
-            {{ card.name }}
+            {{ card.users[0].first_name }} {{ card.users[0].second_name }}
           </md-card-content>
         </md-card-area>
       </md-card-media-cover>
@@ -98,7 +98,7 @@ export default {
   }),
   created () {
     axios.post(`http://vue-api-2.eu-4.evennode.com/graphql`, {
-      query: `{cards(userid:"5b40f9449b082f3a50b32514"){ _id userid account sum state cover } }`
+      query: `{cards(userid:"5b40f9449b082f3a50b32514"){ _id userid account sum state cover users { username first_name second_name } } }`
     }).then(response => {
       this.cards = response.data.data.cards
     })
