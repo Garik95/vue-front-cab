@@ -39,7 +39,6 @@
         <md-card-media md-ratio="16:9">
           <img v-bind:src="'../../../static/card_covers/' + card.cover + '.jpg'" alt="card_cover" />
         </md-card-media>
-          <md-progress-bar md-mode="indeterminate" v-if="!inProgress"></md-progress-bar>
 
         <md-card-area>
           <md-card-actions>
@@ -93,8 +92,7 @@ export default {
     showCoversDialogState: false,
     selectedCardId: null,
     covers: null,
-    cards: null,
-    inProgress: false
+    cards: null
   }),
   created () {
     axios.post(`http://vue-api-2.eu-4.evennode.com/graphql`, {
@@ -112,10 +110,8 @@ export default {
         this.cards[id].sum = response.data.data.card[0].sum
         this.cards[id].state = response.data.data.card[0].state
       })
-      this.inProgress = false
     },
     refresh: function (id) {
-      this.inProgress = true
       this.refreshCard(id)
     },
     // Shows covers popup
